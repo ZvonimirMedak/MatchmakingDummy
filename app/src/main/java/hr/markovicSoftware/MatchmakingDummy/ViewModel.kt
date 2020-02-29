@@ -3,6 +3,7 @@ package hr.markovicSoftware.MatchmakingDummy
 import android.provider.ContactsContract
 import android.renderscript.Sampler
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
@@ -40,7 +41,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
 
         override fun onDataChange(p0: DataSnapshot) {
             if(!p0.exists()){
-
+                Log.d("Na promjenu", "obrisano")
             }
         }
     }
@@ -48,11 +49,11 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         gameRoomRef = databaseReference.child("GameRooms").child("$currentUserId"+ "$foundUserId")
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
-        roomCreated()
+        roomCreated(foundUserId)
     }
 
-    private fun roomCreated(){
-        challengeReference.setValue(null)
+    private fun roomCreated(foundUserId: String){
+        challenges.child(foundUserId).setValue(null)
     }
     fun checkExistingChallenges(
         valueEventListener: ValueEventListener
@@ -67,8 +68,6 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
 
     fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
         challengeReference.setValue(user.uid)
-
-        val push = ""
     }
 
 }
