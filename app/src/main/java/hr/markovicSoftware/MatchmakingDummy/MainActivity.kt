@@ -37,10 +37,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel.createChallenge(databaseReference, firebaseAuth.currentUser!!)
                 viewModel.removeEventListener()
             }
-            if(it!=firebaseAuth.currentUser!!.uid){
-                Log.d("msg123", it!!)
+            if(it!=firebaseAuth.currentUser!!.uid && it != null){
                 viewModel.removeEventListener()
-                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it)
+                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it!!)
             }
         })
 
