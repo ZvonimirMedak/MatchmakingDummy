@@ -68,6 +68,8 @@ class ViewModel2(databaseReference: DatabaseReference) : ViewModel() {
     fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
         challengeReference = challenges.child(user.uid)
         challengeReference.setValue(user.uid)
+
+        val push = ""
     }
 
 }
