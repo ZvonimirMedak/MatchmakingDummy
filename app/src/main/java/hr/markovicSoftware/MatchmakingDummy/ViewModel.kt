@@ -17,7 +17,9 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
     val challengeReference = challenges.child(userId)
     lateinit var dataSnapshot: DataSnapshot
     lateinit var gameRoomRef : DatabaseReference
+    lateinit var gameRoomRefPath : String
     val zero = 0
+    lateinit var foundUser : String
     val userChallenge = MutableLiveData<String?>()
     val valueEventListenerChallenges = object : ValueEventListener {
         override fun onCancelled(p0: DatabaseError) {
@@ -40,8 +42,11 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         }
 
         override fun onDataChange(p0: DataSnapshot) {
-            if(!p0.exists()){
-                Log.d("Na promjenu", "obrisano")
+            if(p0.exists()){
+                if(p0.child("gameRoomRef").getValue(String::class.java) != ""){
+                    gameRoomRefPath = p0.child("gameRoomRef").getValue(String::class.java)!!
+                    roomCreated(foundUser)
+                }
             }
         }
     }
@@ -49,11 +54,12 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         gameRoomRef = databaseReference.child("GameRooms").child("$currentUserId"+ "$foundUserId")
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
-        challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef)
+        challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef.key)
     }
 
     private fun roomCreated(foundUserId: String){
         challenges.child(foundUserId).setValue(null)
+        foundUser = foundUserId
     }
     fun checkExistingChallenges(
         valueEventListener: ValueEventListener
