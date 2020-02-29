@@ -49,7 +49,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         gameRoomRef = databaseReference.child("GameRooms").child("$currentUserId"+ "$foundUserId")
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
-        roomCreated(foundUserId)
+        challengeReference.child("gameRoomRef").setValue(gameRoomRef)
     }
 
     private fun roomCreated(foundUserId: String){
@@ -68,6 +68,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
 
     fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
         challengeReference.setValue(user.uid)
+        challengeReference.addValueEventListener(valueEventListenerMatch)
     }
 
 }
