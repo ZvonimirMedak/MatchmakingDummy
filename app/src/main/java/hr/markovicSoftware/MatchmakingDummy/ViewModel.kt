@@ -11,9 +11,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 
-class ViewModel2(databaseReference: DatabaseReference) : ViewModel() {
+class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewModel() {
     val challenges = databaseReference.child("challenges")
-    lateinit var challengeReference : DatabaseReference
+    val challengeReference = challenges.child(userId)
     lateinit var dataSnapshot: DataSnapshot
     lateinit var gameRoomRef : DatabaseReference
     val zero = 0
@@ -66,7 +66,6 @@ class ViewModel2(databaseReference: DatabaseReference) : ViewModel() {
     }
 
     fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
-        challengeReference = challenges.child(user.uid)
         challengeReference.setValue(user.uid)
 
         val push = ""

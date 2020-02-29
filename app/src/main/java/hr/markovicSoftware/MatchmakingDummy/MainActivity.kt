@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         databaseReference = firebaseDatabase.getReference().child("matchmakingdummy")
         val providers = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build())
-        val viewModel = ViewModel2(databaseReference)
+        val viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser!!.uid)
         viewModel.userChallenge.observe(this, Observer {
             if(it==null){
                 viewModel.createChallenge(databaseReference, firebaseAuth.currentUser!!)
