@@ -10,30 +10,41 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 
-class ViewModel2 : ViewModel(){
-
+class ViewModel2(databaseReference: DatabaseReference) : ViewModel() {
+    val challenges = databaseReference.child("challenges")
     lateinit var dataSnapshot: DataSnapshot
-    val valueEventListenerChallenges = object : ValueEventListener{
+    val zero = 0
+    val userChallenge = MutableLiveData<String?>()
+    val valueEventListenerChallenges = object : ValueEventListener {
         override fun onCancelled(p0: DatabaseError) {
             Log.d("msg", p0.message)
         }
 
         override fun onDataChange(p0: DataSnapshot) {
-            dataSnapshot = p0.children.first()
-            userChallenge.value =  dataSnapshot.child("uid").getValue(String::class.java)
+            if (p0.childrenCount != zero.toLong()) {
+                dataSnapshot = p0.children.first()
+                userChallenge.value = dataSnapshot.getValue(String::class.java)
+            } else {
+                userChallenge.value = null
+            }
         }
-
-    }
-    val userChallenge = MutableLiveData<String?>()
-    fun checkExistingChallenges(databaseReference: DatabaseReference){
-        val challenges = databaseReference.child("challenges")
-        challenges.addValueEventListener(valueEventListenerChallenges)
     }
 
-    fun createChallenge(databaseReference: DatabaseReference, user : FirebaseUser){
+    fun checkExistingChallenges(
+        databaseReference: DatabaseReference,
+        valueEventListener: ValueEventListener
+    ) {
+        challenges.addValueEventListener(valueEventListener)
+
+    }
+
+    fun removeEventListener() {
+        challenges.removeEventListener(valueEventListenerChallenges)
+    }
+
+    fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
         val challengeReference = databaseReference.child("challenges")
-        challengeReference.child("uid").setValue(user.uid)
+        challengeReference.child(user.uid).setValue(user.uid)
     }
-
 
 }

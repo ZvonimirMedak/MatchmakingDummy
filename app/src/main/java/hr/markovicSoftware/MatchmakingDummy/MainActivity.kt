@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -30,12 +31,15 @@ class MainActivity : AppCompatActivity() {
         databaseReference = firebaseDatabase.getReference().child("matchmakingdummy")
         val providers = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build())
-        val viewModel = ViewModel2()
+        val viewModel = ViewModel2(databaseReference)
         viewModel.userChallenge.observe(this, Observer {
             if(it==null){
                 viewModel.createChallenge(databaseReference, firebaseAuth.currentUser!!)
+                viewModel.removeEventListener()
             }
-            if(it!=null){
+            if(it!=firebaseAuth.currentUser!!.uid){
+                Log.d("msg123", it!!)
+                viewModel.removeEventListener()
             }
         })
 
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
         val button: Button = findViewById(R.id.start_match)
         button.setOnClickListener {
-                    viewModel.checkExistingChallenges(databaseReference)
+                    viewModel.checkExistingChallenges(databaseReference, viewModel.valueEventListenerChallenges)
         }
 
 
