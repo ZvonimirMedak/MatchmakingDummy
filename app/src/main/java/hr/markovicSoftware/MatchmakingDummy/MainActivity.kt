@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             if(it!=firebaseAuth.currentUser!!.uid){
                 Log.d("msg123", it!!)
                 viewModel.removeEventListener()
+                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it)
             }
         })
 
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
         val button: Button = findViewById(R.id.start_match)
         button.setOnClickListener {
-                    viewModel.checkExistingChallenges(databaseReference, viewModel.valueEventListenerChallenges)
+                    viewModel.checkExistingChallenges(viewModel.valueEventListenerChallenges)
         }
 
 
