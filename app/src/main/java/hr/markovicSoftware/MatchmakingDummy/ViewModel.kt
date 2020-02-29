@@ -52,6 +52,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         override fun onDataChange(p0: DataSnapshot) {
             if(p0.child("gameRoomRef").getValue(String::class.java) != ""){
                 gameRoomRefPath = p0.child("gameRoomRef").getValue(String::class.java)!!
+                getUsersInRoom()
 
 
             }
@@ -64,8 +65,8 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         }
 
         override fun onDataChange(p0: DataSnapshot) {
-            player1 = p0.child("player_1").getValue(String::class.java)!!
-            player2 = p0.child("player_2").getValue(String::class.java)!!
+            player1 = p0.child("player 1").getValue(String::class.java)!!
+            player2 = p0.child("player 2").getValue(String::class.java)!!
             popupView.player_1.text = player1
             popupView.player_2.text = player2
             popupWindow.showAtLocation(rootLayout, Gravity.CENTER, 0,0)
