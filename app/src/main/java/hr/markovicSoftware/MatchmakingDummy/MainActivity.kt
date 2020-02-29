@@ -1,12 +1,14 @@
 package hr.markovicSoftware.MatchmakingDummy
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.firebase.ui.auth.AuthUI
@@ -42,10 +44,13 @@ class MainActivity : AppCompatActivity() {
                         .build(), RC_SIGN_IN)
             }
         }
-
+        val popupWindow = PopupWindow(this)
+        val popupWindowView = layoutInflater.inflate(R.layout.popup, null)
+        popupWindow.contentView = popupWindowView
+        popupWindow.isFocusable = true
         firebaseAuth.addAuthStateListener(authStateListener)
 
-        viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser?.uid ?: "")
+        viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser?.uid ?: "", popupWindow, popupWindowView, window.decorView.rootView)
         viewModel.userChallenge.observe(this, Observer {
             if(it==null){
                 viewModel.createChallenge()
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             }
             if(it!=firebaseAuth.currentUser!!.uid && it != null){
                 viewModel.removeEventListener()
-                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it)
+                viewModel.createGameRoom(firebaseAuth.currentUser!!.uid, it)
             }
         })
 
