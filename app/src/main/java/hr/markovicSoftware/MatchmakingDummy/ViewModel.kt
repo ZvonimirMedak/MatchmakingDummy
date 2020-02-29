@@ -65,6 +65,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         }
 
         override fun onDataChange(p0: DataSnapshot) {
+
             player1 = p0.child("player 1").getValue(String::class.java)!!
             player2 = p0.child("player 2").getValue(String::class.java)!!
             popupView.player_1.text = player1
@@ -82,7 +83,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
     }
 
     private fun roomCreated(){
-        challenges.removeEventListener(valueEventListenerChallenges)
+        challengeReference.removeEventListener(valueEventListenerMatch)
         challenges.child(userId).setValue(null)
     }
     fun checkExistingChallenges(
