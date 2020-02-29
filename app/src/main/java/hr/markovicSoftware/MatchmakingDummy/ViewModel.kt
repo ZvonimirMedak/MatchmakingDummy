@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.popup.view.*
 
 class ViewModel2(private val databaseReference: DatabaseReference,var userId : String,
-                 popupWindow: PopupWindow, popupView: View, rootLayout : View
+                 val popupWindow: PopupWindow,val  popupView: View,val rootLayout : View
 ) : ViewModel() {
     val challenges = databaseReference.child("challenges")
     val challengeReference = challenges.child(userId)
@@ -79,7 +79,9 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
         challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef.key)
-
+        popupView.player_1.text = player1
+        popupView.player_2.text = player2
+        popupWindow.showAtLocation(rootLayout, Gravity.CENTER, 0,0)
     }
 
     private fun roomCreated(){
