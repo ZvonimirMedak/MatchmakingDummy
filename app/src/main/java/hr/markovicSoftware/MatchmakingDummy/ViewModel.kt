@@ -82,6 +82,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
     }
 
     private fun roomCreated(){
+        challenges.removeEventListener(valueEventListenerChallenges)
         challenges.child(userId).setValue(null)
     }
     fun checkExistingChallenges(
