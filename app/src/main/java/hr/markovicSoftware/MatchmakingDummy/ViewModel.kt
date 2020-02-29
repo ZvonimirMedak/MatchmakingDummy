@@ -70,6 +70,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
             popupView.player_1.text = player1
             popupView.player_2.text = player2
             popupWindow.showAtLocation(rootLayout, Gravity.CENTER, 0,0)
+            roomCreated()
         }
     }
     fun createGameRoom(currentUserId : String, foundUserId : String){
@@ -77,11 +78,11 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
         challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef.key)
-        roomCreated(foundUserId)
+
     }
 
-    private fun roomCreated(foundUserId: String){
-        challenges.child(foundUserId).setValue(null)
+    private fun roomCreated(){
+        challenges.child(userId).setValue(null)
     }
     fun checkExistingChallenges(
         valueEventListener: ValueEventListener
