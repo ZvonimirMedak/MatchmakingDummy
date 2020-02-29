@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "507354556583",
+    "firebase_url": "https://matchmakingdummy.firebaseio.com",
+    "project_id": "matchmakingdummy",
+    "storage_bucket": "matchmakingdummy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507354556583:android:1d9344581f347d8f409382",
+        "android_client_info": {
+          "package_name": "hr.markovicSoftware.MatchmakingDummy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507354556583-bc9633calmr7g19jhoc78liaftegstuq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1PeZVDItRmzcMqxFYmDQAIzfFIIAI8B0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507354556583-bc9633calmr7g19jhoc78liaftegstuq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "507354556583-7phtg3u5nqnhr4jjr5c2ph2rn4e0g5ib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "hr.markovicSoftware.MatchmakingDummy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
