@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         firebaseDatabase = FirebaseDatabase.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
-        databaseReference = firebaseDatabase.getReference().child("matchmakingdummy")
+        databaseReference = firebaseDatabase.getReference()
         val providers = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build())
         val viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser!!.uid)
