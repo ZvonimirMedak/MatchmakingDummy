@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 
-class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewModel() {
+class ViewModel2(databaseReference: DatabaseReference,var userId : String) : ViewModel() {
     val challenges = databaseReference.child("challenges")
     val challengeReference = challenges.child(userId)
     lateinit var dataSnapshot: DataSnapshot
@@ -49,7 +49,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         gameRoomRef = databaseReference.child("GameRooms").child("$currentUserId"+ "$foundUserId")
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
-        challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef)
+        challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef.key)
     }
 
     private fun roomCreated(foundUserId: String){

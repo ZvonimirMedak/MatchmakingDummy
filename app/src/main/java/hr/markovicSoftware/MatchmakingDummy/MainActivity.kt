@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authStateListener : FirebaseAuth.AuthStateListener
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
-
+    lateinit var viewModel: ViewModel2
     private val RC_SIGN_IN = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,18 +31,6 @@ class MainActivity : AppCompatActivity() {
         databaseReference = firebaseDatabase.getReference()
         val providers = listOf(
             AuthUI.IdpConfig.GoogleBuilder().build())
-        val viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser!!.uid)
-        viewModel.userChallenge.observe(this, Observer {
-            if(it==null){
-                viewModel.createChallenge()
-                viewModel.removeEventListener()
-            }
-            if(it!=firebaseAuth.currentUser!!.uid && it != null){
-                viewModel.removeEventListener()
-                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it!!)
-            }
-        })
-
         authStateListener = FirebaseAuth.AuthStateListener {
             val user = firebaseAuth.currentUser
             if(user!=null){
@@ -54,6 +42,22 @@ class MainActivity : AppCompatActivity() {
                         .build(), RC_SIGN_IN)
             }
         }
+
+        firebaseAuth.addAuthStateListener(authStateListener)
+
+        viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser?.uid ?: "")
+        viewModel.userChallenge.observe(this, Observer {
+            if(it==null){
+                viewModel.createChallenge()
+                viewModel.removeEventListener()
+            }
+            if(it!=firebaseAuth.currentUser!!.uid && it != null){
+                viewModel.removeEventListener()
+                viewModel.createGameRoom(databaseReference, firebaseAuth.currentUser!!.uid, it)
+            }
+        })
+
+
         val button: Button = findViewById(R.id.start_match)
         button.setOnClickListener {
                     viewModel.checkExistingChallenges(viewModel.valueEventListenerChallenges)
@@ -64,7 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        firebaseAuth.addAuthStateListener(authStateListener)
+
     }
 
     override fun onPause() {
@@ -75,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RC_SIGN_IN){
             if(resultCode == Activity.RESULT_OK){
+                viewModel.userId = firebaseAuth.currentUser!!.uid
                 Toast.makeText(this, "You just signed in!", Toast.LENGTH_SHORT).show()
             }
             else{
