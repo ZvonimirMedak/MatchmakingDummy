@@ -79,7 +79,8 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
         gameRoomRef.child("player 1").setValue(currentUserId)
         gameRoomRef.child("player 2").setValue(foundUserId)
         challenges.child(foundUserId).child("gameRoomRef").setValue(gameRoomRef.key)
-        challengeReference.addValueEventListener(valueEventListenerUsers)
+        databaseReference.child("GameRooms").child("$currentUserId"+"$foundUserId").addValueEventListener(valueEventListenerUsers)
+
     }
 
     private fun roomCreated(){
