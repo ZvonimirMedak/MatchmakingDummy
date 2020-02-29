@@ -67,7 +67,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
     }
 
     fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
-        challengeReference.setValue(user.uid)
+        challengeReference.child("gameRoomRef").setValue("")
         challengeReference.addValueEventListener(valueEventListenerMatch)
     }
 
