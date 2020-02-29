@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModel2(databaseReference, firebaseAuth.currentUser!!.uid)
         viewModel.userChallenge.observe(this, Observer {
             if(it==null){
-                viewModel.createChallenge(databaseReference, firebaseAuth.currentUser!!)
+                viewModel.createChallenge()
                 viewModel.removeEventListener()
             }
             if(it!=firebaseAuth.currentUser!!.uid && it != null){

@@ -27,7 +27,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         override fun onDataChange(p0: DataSnapshot) {
             if (p0.childrenCount != zero.toLong()) {
                 dataSnapshot = p0.children.first()
-                userChallenge.value = dataSnapshot.getValue(String::class.java)
+                userChallenge.value = dataSnapshot.key
             } else {
                 userChallenge.value = null
             }
@@ -66,7 +66,7 @@ class ViewModel2(databaseReference: DatabaseReference, userId : String) : ViewMo
         challenges.removeEventListener(valueEventListenerChallenges)
     }
 
-    fun createChallenge(databaseReference: DatabaseReference, user: FirebaseUser) {
+    fun createChallenge() {
         challengeReference.child("gameRoomRef").setValue("")
         challengeReference.addValueEventListener(valueEventListenerMatch)
     }
