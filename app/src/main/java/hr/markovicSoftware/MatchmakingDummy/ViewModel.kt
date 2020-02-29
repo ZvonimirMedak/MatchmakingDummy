@@ -23,7 +23,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
     val challengeReference = challenges.child(userId)
     lateinit var dataSnapshot: DataSnapshot
     lateinit var gameRoomRef : DatabaseReference
-    lateinit var gameRoomRefPath : String
+    var gameRoomRefPath : String? = ""
     val zero = 0
     val userChallenge = MutableLiveData<String?>()
     lateinit var player1 : String
@@ -51,7 +51,7 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
 
         override fun onDataChange(p0: DataSnapshot) {
             if(p0.child("gameRoomRef").getValue(String::class.java) != ""){
-                gameRoomRefPath = p0.child("gameRoomRef").getValue(String::class.java)!!
+                gameRoomRefPath = p0.child("gameRoomRef").getValue(String::class.java)?: ""
                 getUsersInRoom()
 
 
@@ -101,6 +101,6 @@ class ViewModel2(private val databaseReference: DatabaseReference,var userId : S
     }
 
     fun getUsersInRoom(){
-        databaseReference.child("GameRooms").child(gameRoomRefPath).addValueEventListener(valueEventListenerUsers)
+        databaseReference.child("GameRooms").child(gameRoomRefPath!!).addValueEventListener(valueEventListenerUsers)
     }
 }
